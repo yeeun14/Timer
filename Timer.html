@@ -13,9 +13,12 @@
      -->
     <link href="https://cdn.jsdelivr.net/combine/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css,npm/pickerjs@1.2.1/dist/picker.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/combine/npm/pickerjs@1.2.1/dist/picker.min.js,npm/easytimer.js@4.3.0/dist/easytimer.min.js"></script>
+    <!-- 사운드 J query 추가-->
+    <!-- <script src='https://code.jquery.com/jquery-2.2.0.min.js'></script>
+    <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script> -->
     <style>
       .time-picker, .values {
-        background-color: #2962ff;
+        background-color: #9933cc;
         color: #ffffff;
         text-align: center;
         font-size: 5rem;
@@ -33,14 +36,14 @@
       .btn-light {
         width: 120px;
         margin-right: 10px;
-        color: #2962ff !important;
+        color: #9933cc !important;
       }
       .picker-opened > .picker-dialog {
         top: 13rem;
       }
     </style>
   </head>
-  <body style="background-color: #448aff; padding-top: 6.5rem">
+  <body style="background-color: #cc66ff; padding-top: 6.5rem">
     <main role="main">
       <!-- 설정한 카운트다운 시간 표시 -->
       <input type="text" class="form-control time-picker vw-100" value="00:01:00">
@@ -102,6 +105,11 @@
       // 타이머 생성
       const timer = new easytimer.Timer();
 
+      // 사운드 생성
+      var audio = new Audio('watch.mp3');
+      // var audioElement = document.createElement('audio');
+      // audioElement.setAttribute('watch.mp3', 'audio.ogg');
+
       // 타이머 이벤트 리스너 등록
       timer.addEventListener('secondsUpdated', () => {
         values.textContent = timer.getTimeValues().toString();
@@ -114,6 +122,8 @@
       });
       timer.addEventListener('targetAchieved', () => {
         values.textContent = timer.start({countdown: true, startValues: {seconds: toSeconds(timePicker.value) + 1}}); // 카운트다운 완료
+        //  사운드 플레이
+        audio.play();
 
         // ongoingStatus.style.display = 'none';
         // completedStatus.style.display = 'block';
@@ -194,6 +204,12 @@
       function toSeconds(hhmmss) {
         const arr = hhmmss.split(':');
         return (+arr[0]) * 60 * 60 + (+arr[1]) * 60 + (+arr[2]);
+      }
+
+      // 오디오 함수
+      function playAudio() {
+        audioElement.load();
+        audioElement.play();
       }
     </script>
   </body>
